@@ -41,7 +41,6 @@ class GameView(APIView):
         return Response(ser.data)
 
 class UserView(APIView):
-
     def post(self, request):
         try:
             a = request.POST.get('player_type')
@@ -56,7 +55,7 @@ class UserView(APIView):
             team_member = int(request.POST.get('team_member'))
             img = request.FILES['img']
             j = Game.objects.get(id=game)
-            
+            print(type(j.players), type(team_member), type(player_type))
             if j.is_started == False:
                 if j.players == team_member and player_type == 2:
                     a = Users.objects.create(player_type=player_type, name=name, surname=surname, email=email,
@@ -72,7 +71,7 @@ class UserView(APIView):
                         ser = UserSerializer(a)
                         return Response(ser.data)
 
-                elif j.players == team_member and player_type == 1 and team_member == 1:
+                elif j.players == team_member and player_type == 1 and int(team_member) == 1:
                     a = Users.objects.create(player_type=player_type, name=name, surname=surname, email=email,
                     game_id=game, phone=phone, experience_from=experience_from, experience_to=experience_to, team_member=team_member, 
                     img=img)
